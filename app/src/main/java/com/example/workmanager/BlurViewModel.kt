@@ -16,9 +16,13 @@ class BlurViewModel(application: Application):ViewModel() {
     internal var outputUri: Uri? = null
     private val workManager = WorkManager.getInstance(application)
     internal val outputWorkInfos: LiveData<List<WorkInfo>> = workManager.getWorkInfosByTagLiveData(TAG_OUTPUT)
+    internal val progressWorkInfoItems: LiveData<List<WorkInfo>> = workManager.getWorkInfosByTagLiveData(TAG_PROGRESS)
+//    internal val progressWorkInfoItems: LiveData<List<WorkInfo>>   либо вот так иниуциализация
 
     init {
-        // This transformation makes sure that whenever the current work Id changes the WorkInfo
+//        progressWorkInfoItems= workManager.getWorkInfosByTagLiveData(TAG_PROGRESS)
+
+           // This transformation makes sure that whenever the current work Id changes the WorkInfo
         // the UI is listening to changes
         imageUri = getImageUri(application.applicationContext)
     }
@@ -69,8 +73,10 @@ class BlurViewModel(application: Application):ViewModel() {
             if (i == 0) {
                 blurBuilder.setInputData(createInputDataForUri())
             }
+            blurBuilder.addTag(TAG_PROGRESS) // <-- ADD TAG FOR PROGRESSBAR
+            var blurWorkRequest=blurBuilder.build()
 
-            continuation = continuation.then(blurBuilder.build())
+            continuation = continuation.then(blurWorkRequest)
         }
 // Put this inside the applyBlur() function
         // Create charging constraint

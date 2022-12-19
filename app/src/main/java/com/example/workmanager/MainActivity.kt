@@ -33,9 +33,23 @@ class MainActivity : AppCompatActivity() {
         binding.cancelButton.setOnClickListener { viewModel.cancelWork() }
 
         viewModel.outputWorkInfos.observe(this, workInfosObserver())
+        // Show work progress
+        viewModel.progressWorkInfoItems.observe(this, progressObserver())
     }
 
+    private fun progressObserver(): Observer<List<WorkInfo>> {
+        return Observer{
+            if (it.isNullOrEmpty()) {return@Observer}
 
+            it.forEach {
+                if (WorkInfo.State.RUNNING==it.state){
+                    val progress = it.progress.getInt(PROGRESS,0)
+                    binding.progressBar.progress=progress
+                }
+            }
+        }
+
+    }
 
 
     private fun workInfosObserver(): Observer<List<WorkInfo>> {
@@ -98,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             progressBar.visibility = View.GONE
             cancelButton.visibility = View.GONE
             goButton.visibility = View.VISIBLE
+            progressBar.progress=0
         }
     }
 

@@ -20,7 +20,11 @@ class BlurWorker(appContext: Context, workerParams: WorkerParameters) :
         makeStatusNotification("Blurring image",applicationCont)
 
         // This is an utility function added to emulate slower work.
-        sleep()
+        // sleep()
+        (0..100 step 10).forEach {
+            setProgressAsync(workDataOf(PROGRESS to it))
+            sleep()
+        }
         return try {
             if (TextUtils.isEmpty(resourceUri)) {
                 Log.e(TAG, "Invalid input uri")

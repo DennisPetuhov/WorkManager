@@ -68,7 +68,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <Button
                     android:id="@+id/cancel_button"
                     android:layout_width="wrap_content"
@@ -81,9 +81,10 @@
                     android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:indeterminate="true"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
                     android:visibility="gone"
                     android:layout_gravity="center_horizontal"
+                    android:progress="0"
                     />
             </LinearLayout>
 
